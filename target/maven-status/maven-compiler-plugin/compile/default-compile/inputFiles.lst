@@ -1,0 +1,5 @@
+/home/mzm/Devops/helm/spring-boot/spring-data-jpa-mysql/src/main/java/com/mkyong/book/BookController.java
+/home/mzm/Devops/helm/spring-boot/spring-data-jpa-mysql/src/main/java/com/mkyong/book/BookService.java
+/home/mzm/Devops/helm/spring-boot/spring-data-jpa-mysql/src/main/java/com/mkyong/book/BookRepository.java
+/home/mzm/Devops/helm/spring-boot/spring-data-jpa-mysql/src/main/java/com/mkyong/StartApplication.java
+/home/mzm/Devops/helm/spring-boot/spring-data-jpa-mysql/src/main/java/com/mkyong/book/Book.java
