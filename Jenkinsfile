@@ -2,11 +2,11 @@ pipeline {
     agent any
       tools {
        maven 'maven'
-	 	jdk 'java'
+	 	jdk 'jdk17'
     }
 	environment {
 		DOCKER_IMAGE_NAME = "quay.io/mohammed_zuhairal-najjar/mzm:mysql-springboot-example-with-healthcheck"
-		DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}"
+		IMAGE_TAG= "${env.BUILD_NUMBER}"
 	}
      stages {
 	stage('Git checkout Build '){
@@ -23,10 +23,27 @@ pipeline {
 	stage('Build docker image') {
 		steps {
 		    script {
-				sh 'docker build --rm -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .	'
+				sh "docker build --rm -t ${DOCKER_IMAGE_NAME}$V${IMAGE_TAG} . "
 		         }
 	              }
            }
+	stage('push image tag') {
+		steps {
+		    script {
+
+				withCredentials([string(credentialsId: 'redhatquay', variable: 'password')]) {
+				sh 'docker login -u mohammed_zuhairal-najjar -p ${password} quay.io/mohammed_zuhairal-najjar/mzm'
+				sh 'docker push ${DOCKER_IMAGE_NAME}$V${IMAGE_TAG}'
+		         }
+	              }
+           }
+	}
+	stage('clean workspace'){
+		steps {
+        cleanWs()
+		}
+	    }
+
         }
         
      }
