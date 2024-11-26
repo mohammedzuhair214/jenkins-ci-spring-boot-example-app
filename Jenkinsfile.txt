@@ -5,7 +5,7 @@ pipeline {
         skipDefaultCheckout(true)
     }
     tools {
-      jdk "jdk17"
+      jdk 'jdk17'
          } 
 	environment {
 		DOCKER_IMAGE_NAME = "quay.io/mohammed_zuhairal-najjar/mzm:mysql-springboot-example-with-healthcheck"
