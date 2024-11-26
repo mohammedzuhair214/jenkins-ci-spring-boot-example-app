@@ -2,7 +2,7 @@ pipeline {
     agent any
       tools {
        maven 'maven'
-	 	jdk 'java'
+	 	jdk 'java17'
     }
 	environment {
 		DOCKER_IMAGE_NAME = "quay.io/mohammed_zuhairal-najjar/mzm:mysql-springboot-example-with-healthcheck"
