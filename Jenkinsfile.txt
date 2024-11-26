@@ -1,7 +1,11 @@
 pipeline {
     agent any
+    options {
+        // This is required if you want to clean before build
+        skipDefaultCheckout(true)
+    }
     tools {
-      java "jdk17"
+      jdk "jdk17"
          } 
 	environment {
 		DOCKER_IMAGE_NAME = "quay.io/mohammed_zuhairal-najjar/mzm:mysql-springboot-example-with-healthcheck"
