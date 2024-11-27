@@ -5,8 +5,10 @@ pipeline {
 	 	jdk 'jdk17'
     }
 	environment {
-		DOCKER_IMAGE_NAME = "quay.io/mohammed_zuhairal-najjar/mzm:mysql-springboot-example-with-healthcheck"
+		RESPOSITORY_NAME = "quay.io/mohammed_zuhairal-najjar/mzm"
+		DOCKER_IMAGE_NAME = "mysql-springboot-example-with-healthcheck"
 		IMAGE_TAG= "${env.BUILD_NUMBER}"
+		RESPOSITORY_CREDENTIALS= credentials ('redhatquay')
 	}
      stages {
 	stage('Git checkout Build '){
@@ -16,25 +18,35 @@ pipeline {
 	    }
 	stage('maven Build '){
 		steps {
-			sh 'mvn clean install package'
+			sh 'mvn clean install -DskipTests'
 		}
 	    }
 	
 	stage('Build docker image') {
 		steps {
 		    script {
-				sh "docker build --rm -t ${DOCKER_IMAGE_NAME}$V${IMAGE_TAG} . "
+				sh 'docker build --rm -t $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} . '
 		         }
 	              }
            }
+	stage('Respository login') {
+		steps {
+		    script {
+				sh 'echo $RESPOSITORY_CREDENTIALS_PSW | docker login -u $RESPOSITORY_CREDENTIALS_USR --password-stdin $RESPOSITORY_NAME'
+	              }
+           }
+	}
 	stage('push image tag') {
 		steps {
 		    script {
-
-				withCredentials([string(credentialsId: 'redhatquay', variable: 'password')]) {
-				sh 'docker login -u mohammed_zuhairal-najjar -p ${password} quay.io/mohammed_zuhairal-najjar/mzm'
-				sh 'docker push ${DOCKER_IMAGE_NAME}$V${IMAGE_TAG}'
+				sh 'docker push $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} '
 		         }
+	              }
+           }
+	stage('Respository logout') {
+		steps {
+		    script {
+				sh 'docker logout'
 	              }
            }
 	}
