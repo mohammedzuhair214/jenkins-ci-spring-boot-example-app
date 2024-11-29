@@ -40,7 +40,7 @@ pipeline {
                 }
             }
         }
-        */stage('OWASP Dependency-Check Vulnerabilities') {
+        stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
                dependencyTrackPublisher artifact: 'bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: '', projectName: 'spring-my-sql-example', projectVersion: '${BUILD_NUMBER}', synchronous: true
       }
