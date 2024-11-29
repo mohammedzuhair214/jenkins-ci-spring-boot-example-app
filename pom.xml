@@ -118,6 +118,8 @@
 </dependency>
 
 
+
+
     </dependencies>
 
     <build>
@@ -135,7 +137,20 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-            </plugin>
+	</plugin>
+<!-- uses default configuration -->
+    <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <executions>
+            <execution>
+                <phase>package</phase>
+                <goals>
+                    <goal>makeAggregateBom</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
         </plugins>
     </build>
 
