@@ -21,11 +21,17 @@ pipeline {
 			sh 'mvn clean install -DskipTests'
 		}
 	    }
-	stage('Dependency Check'){
-		steps {
-            dependencyCheck additionalArguments: '', nvdCredentialsId: '248ee677-1ae6-4e64-9772-25ff0b9cb470', odcInstallation: 'Dependencycheck'
-		}
-	    }
+        stage('OWASP Dependency-Check Vulnerabilities') {
+               steps {
+               dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+        
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+      }
+    }
 	stage('Build docker image') {
 		steps {
 		    script {
