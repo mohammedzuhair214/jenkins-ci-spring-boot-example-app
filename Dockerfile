@@ -1,4 +1,5 @@
 FROM openjdk:17-jdk-alpine
+RUN apk update && apk upgrade --available
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 ARG JAR_FILE=target/*.jar
