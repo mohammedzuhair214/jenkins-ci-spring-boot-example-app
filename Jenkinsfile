@@ -42,13 +42,7 @@ pipeline {
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
-               dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
-        
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+               dependencyTrackPublisher artifact: 'bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: '', projectName: 'spring-my-sql-example', projectVersion: '${BUILD_NUMBER}', synchronous: true
       }
     }
 	stage('Build docker image') {
