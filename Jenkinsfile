@@ -21,6 +21,25 @@ pipeline {
 			sh 'mvn clean install -DskipTests'
 		}
 	    }
+        stage('build && SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-on-premis') {
+                    // Optionally use a Maven environment you've configured already
+                    withMaven(maven:'maven') {
+                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=spring-boot-example-app -Dsonar.projectName='spring-boot-example-app'"
+                    }
+                }
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
                dependencyCheck additionalArguments: ''' 
