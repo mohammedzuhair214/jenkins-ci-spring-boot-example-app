@@ -42,8 +42,8 @@ pipeline {
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
-               dependencyTrackPublisher artifact: 'bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: '', projectName: 'spring-my-sql-example', projectVersion: '${BUILD_NUMBER}', synchronous: true
-      }
+               dependencyTrackPublisher artifact: 'bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: 'cb264aaa-8578-4244-88d8-f1e42dd452ef', projectName: 'spring-app1', projectVersion: '${BUILD_NUMBER}', synchronous: true, warnOnViolationWarn: true
+	       }
     }
 	stage('Build docker image') {
 		steps {
