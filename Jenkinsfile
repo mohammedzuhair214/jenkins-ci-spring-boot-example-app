@@ -82,7 +82,7 @@ pipeline {
                     // Run Trivy to scan the Docker image
 	      sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > ${WORKSPACE}/html.tpl'
 	      sh 'mkdir -p reports'
-              sh 'trivy ${WORKSPACE}/trivy-report.json $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} --format template --template ${WORKSPACE}/html.tpl -o ${WORKSPACE}/reports/app1-scan.html node:11-alpine'
+              sh 'trivy image $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} --format template --template ${WORKSPACE}/html.tpl -o ${WORKSPACE}/reports/app1-scan.html node:11-alpine'
 
                 }
             }
