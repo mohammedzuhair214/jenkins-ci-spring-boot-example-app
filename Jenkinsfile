@@ -80,14 +80,15 @@ pipeline {
                 script {
                     // Run Trivy to scan the Docker image
 	      sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > ${WORKSPACE}/html.tpl'
-	      sh 'trivy image --format template --template @${WORKSPACE}/html.tpl -o ${WORKSPACE}/app1-scan.html $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
+	      sh 'trivy image --format template --template @${WORKSPACE}/html.tpl -o ${WORKSPACE}/image-scan.html $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
 
                 }
             }
        }
        stage('Publish Trivy security image report') {
             steps {
-		publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')
+		/*publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')*/
+		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'image-scan', reportName: 'Trivy image scanning report', reportTitles: 'Trivy image scanning report', useWrapperFileDirectly: true])
 		}
 	    }
 	stage('Respository login') {
