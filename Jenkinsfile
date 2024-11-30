@@ -52,15 +52,20 @@ pipeline {
 		         }
 	              }
            }
-       stage('Scan Docker Image') {
+       stage('Scan Docker Image Trivy') {
             steps {
                 script {
                     // Run Trivy to scan the Docker image
-              sh 'trivy image $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
+              sh 'trivy image --format json --output trivy-report.json $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
 
                 }
             }
        }
+       stage('Publish Trivy security image report') {
+            steps {
+		publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')
+		}
+	    }
 	stage('Respository login') {
 		steps {
 		    script {
