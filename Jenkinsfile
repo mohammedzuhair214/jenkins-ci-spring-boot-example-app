@@ -59,20 +59,6 @@ pipeline {
 	              }
            }
 	}
-	stage('push image tag') {
-		steps {
-		    script {
-				sh 'docker push $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} '
-		         }
-	              }
-           }
-	stage('Respository logout') {
-		steps {
-		    script {
-				sh 'docker logout'
-	              }
-           }
-	}
        stage('Scan Docker Image') {
             steps {
                 script {
@@ -93,6 +79,21 @@ pipeline {
                     }
                 }
             }
+       }
+	stage('push image tag') {
+		steps {
+		    script {
+				sh 'docker push $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG} '
+		         }
+	              }
+           }
+	stage('Respository logout') {
+		steps {
+		    script {
+				sh 'docker logout'
+	              }
+           }
+	}
 	stage('clean workspace'){
 		steps {
         cleanWs()
