@@ -25,7 +25,7 @@ pipeline {
                steps {
                dependencyTrackPublisher artifact: '${WORKSPACE}/target/bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: 'cb264aaa-8578-4244-88d8-f1e42dd452ef', projectName: 'spring-app1', projectVersion: '${BUILD_NUMBER}', synchronous: true, warnOnViolationWarn: true
 	       }
-    }*/
+    }
         stage('build && SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube-on-premis') {
@@ -44,7 +44,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
+        }*/
 	stage('Build docker image') {
 		steps {
 		    script {
@@ -73,6 +73,26 @@ pipeline {
 	              }
            }
 	}
+       stage('Scan Docker Image') {
+            steps {
+                script {
+                    // Run Trivy to scan the Docker image
+                    def trivyOutput = sh(script: "trivy image $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}", returnStdout: true).trim()
+
+                    // Display Trivy scan results
+                    println trivyOutput
+
+                    // Check if vulnerabilities were found
+                    if (trivyOutput.contains("Total: 0")) {
+                        echo "No vulnerabilities found in the Docker image."
+                    } else {
+                        echo "Vulnerabilities found in the Docker image."
+                        // You can take further actions here based on your requirements
+                        // For example, failing the build if vulnerabilities are found
+                        // error "Vulnerabilities found in the Docker image."
+                    }
+                }
+            }
 	stage('clean workspace'){
 		steps {
         cleanWs()
