@@ -21,6 +21,11 @@ pipeline {
 			sh 'mvn clean install -DskipTests'
 		}
 	    }
+        stage('OWASP Dependency-Check Vulnerabilities') {
+               steps {
+               dependencyTrackPublisher artifact: '${WORKSPACE}/target/bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: 'cb264aaa-8578-4244-88d8-f1e42dd452ef', projectName: 'spring-app1', projectVersion: '${BUILD_NUMBER}', synchronous: true, warnOnViolationWarn: true
+	       }
+    }
         stage('build && SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube-on-premis') {
@@ -40,11 +45,6 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') {
-               steps {
-               dependencyTrackPublisher artifact: 'bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: '', projectName: 'spring-my-sql-example', projectVersion: '${BUILD_NUMBER}', synchronous: true
-      }
-    }
 	stage('Build docker image') {
 		steps {
 		    script {
