@@ -59,7 +59,6 @@ pipeline {
                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
                 // Scan all vuln levels
-                sh 'mkdir -p reports'
                 sh 'trivy  --vuln-type os,library --format template --template "@html.tpl" -o reports/app1-scan.html ./nodejs'
                 publishHTML target : [
                     allowMissing: true,
@@ -81,8 +80,7 @@ pipeline {
                 script {
                     // Run Trivy to scan the Docker image
 	      sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > ${WORKSPACE}/html.tpl'
-	      sh 'mkdir -p reports'
-              sh 'trivy image --format template --template @${WORKSPACE}/html.tpl -o ${WORKSPACE}/reports/app1-scan.html $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
+	      sh 'trivy image --format template --template @${WORKSPACE}/html.tpl -o ${WORKSPACE}/app1-scan.html $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
 
                 }
             }
