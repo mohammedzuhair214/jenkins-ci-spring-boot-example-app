@@ -91,8 +91,8 @@ pipeline {
 	}
     stage ('Pass build number parameter') {
         steps {
-            build_job_id: "${BUILD_NUMBER}"
-            parameters [build_job_id]
+        def handle = triggerRemoteJob(remoteJenkinsName: 'Helm-CI-JOBS/Build-HELM-package', job: 'RemoteJob' paramters: "param1=${BUILD_NUMBER}\nparam2=${env.param2}")
+
         }
     }
 	stage('clean workspace'){
