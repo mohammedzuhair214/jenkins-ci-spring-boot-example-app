@@ -18,7 +18,7 @@ pipeline {
 	    }
 	stage('maven Build '){
 		steps {
-			sh 'mvn clean install -DskipTests'
+			sh 'mvn clean install'
 		}
 	    }
         /*stage('OWASP Dependency-Check Vulnerabilities') {
