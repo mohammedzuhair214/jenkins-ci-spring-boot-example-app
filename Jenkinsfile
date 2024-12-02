@@ -91,7 +91,7 @@ pipeline {
 	}
     stage ('Pass build number parameter') {
         steps {
-            build_job_id: "${BUILD_NUMBER}",
+            build_job_id: "${BUILD_NUMBER}"
             parameters [build_job_id]
         }
     }
