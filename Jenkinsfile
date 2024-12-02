@@ -1,4 +1,3 @@
-def source_build_number = ${BUILD_NUMBER}
 pipeline {
     agent any
       tools {
@@ -92,7 +91,7 @@ pipeline {
 	}
     stage ('Pass build number parameter') {
         steps {
-	build job: "Helm-CI-JOBS/Build-HELM-package",
+	build job: "Helm-CI-JOBS/Build-HELM-package"
         }
     }
 	stage('clean workspace'){
