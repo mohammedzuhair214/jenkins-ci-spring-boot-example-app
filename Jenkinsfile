@@ -92,7 +92,6 @@ pipeline {
     stage ('trigger Helm package job') {
         steps {
 	build job: "Helm-CI-JOBS/Build-HELM-package"
-        parameters [string(name: 'IMAGE_TAG', value: '${IMAGE_TAG}')]
 
         }
     }
