@@ -28,7 +28,7 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
+securityContext: {}
   #runAsNonRoot: false
   #runAsUser: 1000
 
