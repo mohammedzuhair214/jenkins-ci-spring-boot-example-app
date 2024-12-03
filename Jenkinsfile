@@ -93,7 +93,7 @@ pipeline {
 	  stage('helm templates package') {
 		steps {
 			sh '/opt/jenkins-tools/file-edit-python.py ${WORKSPACE}/${HELM_TEMPLATE_NAME}/values.yaml image tag ${DOCKER_IMAGE_NAME}${IMAGE_TAG} values'
-			sh 'opt/jenkins-tools/file-edit-python.py ${WORKSPACE}/${HELM_TEMPLATE_NAME}/Charts.yaml version 1 minor chart'
+			sh '/opt/jenkins-tools/file-edit-python.py ${WORKSPACE}/${HELM_TEMPLATE_NAME}/Charts.yaml version 1 minor chart'
 			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 
