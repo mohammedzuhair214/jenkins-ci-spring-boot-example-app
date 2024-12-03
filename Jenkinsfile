@@ -6,6 +6,7 @@ pipeline {
     }
 	environment {
 		RESPOSITORY_NAME = "quay.io/mohammed_zuhairal-najjar/mzm"
+		HELM_TEMPLATE_NAME = "demo-app-test-from-starter"
 		DOCKER_IMAGE_NAME = "mysql-springboot-example-with-healthcheck"
 		IMAGE_TAG= "${env.BUILD_NUMBER}"
 		RESPOSITORY_CREDENTIALS= credentials ('redhatquay')
@@ -89,12 +90,12 @@ pipeline {
 	              }
            }
 	}*/
-    stage ('trigger Helm package job') {
-        steps {
-	build job: "Helm-CI-JOBS/Build-HELM-package"
-
-        }
-    }
+	  stage('helm templates package') {
+		steps {
+			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
+			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
+			}
+		}
 	stage('clean workspace'){
 		steps {
         cleanWs()
