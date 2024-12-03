@@ -65,7 +65,7 @@ pipeline {
        }
        stage('Publish Trivy security image report') {
             steps {
-		/*publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')*/
+		publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')*/
 		publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '', reportFiles: 'image-scan.html', reportName: 'Trivy-image-scanning-report', reportTitles: 'Trivy-image-scanning-report', useWrapperFileDirectly: true])
 		}
 	    }
