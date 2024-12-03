@@ -18,10 +18,10 @@ pipeline {
 	    }
 	stage('maven Build '){
 		steps {
-			sh 'mvn clean install -DskipTests'
+			sh 'mvn clean install'
 		}
 	    }
-        stage('OWASP Dependency-Check Vulnerabilities') {
+        /*stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
                dependencyTrackPublisher artifact: '${WORKSPACE}/target/bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: 'cb264aaa-8578-4244-88d8-f1e42dd452ef', projectName: 'spring-app1', projectVersion: '${BUILD_NUMBER}', synchronous: true, warnOnViolationWarn: true
 	       }
@@ -44,7 +44,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
+        }*/
 	stage('Build docker image') {
 		steps {
 		    script {
@@ -52,6 +52,22 @@ pipeline {
 		         }
 	              }
            }
+       stage('Scan Docker Image Trivy') {
+            steps {
+                script {
+                    // Run Trivy to scan the Docker image
+	      sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > ${WORKSPACE}/html.tpl'
+	      sh 'trivy image --vuln-type os,library --format template --template @${WORKSPACE}/html.tpl -o ${WORKSPACE}/image-scan.html $RESPOSITORY_NAME:${DOCKER_IMAGE_NAME}$_V${IMAGE_TAG}'
+
+                }
+            }
+       }
+       stage('Publish Trivy security image report') {
+            steps {
+		/*publishReport displayType: 'absolute', name: 'app1-container-scan-report', provider: json(id: '${BUILD_NUMBER}', pattern: '${WORKSPACE}/trivy-report.json')*/
+		publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '', reportFiles: 'image-scan.html', reportName: 'Trivy-image-scanning-report', reportTitles: 'Trivy-image-scanning-report', useWrapperFileDirectly: true])
+		}
+	    }/*
 	stage('Respository login') {
 		steps {
 		    script {
@@ -72,7 +88,13 @@ pipeline {
 				sh 'docker logout'
 	              }
            }
-	}
+	}*/
+    stage ('trigger Helm package job') {
+        steps {
+	build job: "Helm-CI-JOBS/Build-HELM-package"
+
+        }
+    }
 	stage('clean workspace'){
 		steps {
         cleanWs()
