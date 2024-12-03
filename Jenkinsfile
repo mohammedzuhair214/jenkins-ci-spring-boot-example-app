@@ -99,7 +99,7 @@ pipeline {
 			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 
 			}
-		}/*
+		}*/
 	  stage('checkout helm templates') {
 		steps {
 		   build job: 'Helm-CI-JOBS/Build-HELM-package',  parameters: [string(name: 'ORIG_BUILD_NUMBER', value: "${BUILD_NUMBER}")]
@@ -109,7 +109,7 @@ pipeline {
 		steps {
         cleanWs()
 		}
-	    }*/
+	    }
 
         }
         
