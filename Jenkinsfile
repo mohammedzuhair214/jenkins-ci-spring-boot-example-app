@@ -89,7 +89,7 @@ pipeline {
 				sh 'docker logout'
 	              }
            }
-	}*/
+	}/*
 	  stage('helm templates package') {
 		steps {
 			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
