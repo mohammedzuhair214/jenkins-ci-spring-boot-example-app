@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    parameters { string(name: 'ORIG_BUILD_NUMBER', defaultValue: '${BUILD_NUMBER}', description: '') }
       tools {
        maven 'maven'
 	 	jdk 'jdk17'
@@ -89,7 +90,7 @@ pipeline {
 				sh 'docker logout'
 	              }
            }
-	}*/
+	}
 	  stage('helm templates package') {
 		steps {
 			sh '/opt/jenkins-tools/file-edit-python.py ${WORKSPACE}/${HELM_TEMPLATE_NAME}/values.yaml image tag ${DOCKER_IMAGE_NAME}${IMAGE_TAG} values'
@@ -99,6 +100,11 @@ pipeline {
 
 			}
 		}/*
+	  stage('checkout helm templates') {
+		steps {
+		   build job: 'Helm-CI-JOBS/Build-HELM-package',  parameters: [string(name: 'ORIG_BUILD_NUMBER', value: "${BUILD_NUMBER}")]
+			}
+		}
 	stage('clean workspace'){
 		steps {
         cleanWs()
