@@ -94,7 +94,7 @@ pipeline {
 		steps {
 			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
-			sh '/opt/tools/file-edit-python.py ${workspace}/${HELM_TEMPLATE_NAME}/values.yaml ${DOCKER_IMAGE_NAME}${IMAGE_TAG}'
+			sh '/opt/jenkins-tools/file-edit-python.py ${workspace}/${HELM_TEMPLATE_NAME}/values.yaml ${DOCKER_IMAGE_NAME}${IMAGE_TAG}'
 			}
 		}/*
 	stage('clean workspace'){
