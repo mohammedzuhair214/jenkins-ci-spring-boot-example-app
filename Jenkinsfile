@@ -100,8 +100,8 @@ pipeline {
 		steps {
         cleanWs()
 		}
-	    }
+	    }*/
 
-        }*/
+        }
         
      }
