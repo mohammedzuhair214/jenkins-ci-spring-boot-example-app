@@ -94,7 +94,7 @@ pipeline {
 		steps {
 			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
-			sh "sed -e 's, \"mysql-springboot-example-with-healthcheck[0-9]*\", "'${DOCKER_IMAGE_NAME}${IMAGE_TAG}'",g'  ${WORKSPACE}/${HELM_TEMPLATE_NAME}/values.yaml | grep tag"
+			sh '/opt/tools/file-edit-python.py ${workspace}/${HELM_TEMPLATE_NAME}/values.yaml ${DOCKER_IMAGE_NAME}${IMAGE_TAG}'
 			}
 		}/*
 	stage('clean workspace'){
