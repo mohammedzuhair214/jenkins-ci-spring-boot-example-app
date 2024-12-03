@@ -17,12 +17,12 @@ pipeline {
            git branch: 'main', credentialsId: 'github', url: 'https://github.com/mohammedzuhair214/jenkins-ci-spring-boot-example-app.git'
 		}
 	    }
-	stage('maven Build '){
+	/*stage('maven Build '){
 		steps {
 			sh 'mvn clean install'
 		}
 	    }
-        /*stage('OWASP Dependency-Check Vulnerabilities') {
+        stage('OWASP Dependency-Check Vulnerabilities') {
                steps {
                dependencyTrackPublisher artifact: '${WORKSPACE}/target/bom.json', autoCreateProjects: false, dependencyTrackApiKey: '', dependencyTrackFrontendUrl: '', dependencyTrackUrl: '', projectId: 'cb264aaa-8578-4244-88d8-f1e42dd452ef', projectName: 'spring-app1', projectVersion: '${BUILD_NUMBER}', synchronous: true, warnOnViolationWarn: true
 	       }
@@ -95,13 +95,13 @@ pipeline {
 			sh 'helm lint ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 			sh 'helm package ${WORKSPACE}/${HELM_TEMPLATE_NAME}'
 			}
-		}
+		}/*
 	stage('clean workspace'){
 		steps {
         cleanWs()
 		}
 	    }
 
-        }
+        }*/
         
      }
