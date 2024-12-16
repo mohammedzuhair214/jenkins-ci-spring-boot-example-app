@@ -18,7 +18,7 @@ pipeline {
            git branch: 'main', credentialsId: 'github', url: 'https://github.com/mohammedzuhair214/jenkins-ci-spring-boot-example-app.git'
 		}
 	    }
-	/*stage('maven Build '){
+	stage('maven Build '){
 		steps {
 			sh 'mvn clean install'
 		}
@@ -74,6 +74,7 @@ pipeline {
 		steps {
 		    script {
 				sh 'echo $RESPOSITORY_CREDENTIALS_PSW | docker login -u $RESPOSITORY_CREDENTIALS_USR --password-stdin $RESPOSITORY_NAME'
+			        sh 'echo $RESPOSITORY_CREDENTIALS_PSW'
 	              }
            }
 	}
@@ -91,7 +92,6 @@ pipeline {
 	              }
            }
 	}
-          */
 	  stage('Helm templates update downstream job') {
 		steps {
 		   build job: 'Helm-CI-JOBS/Build-HELM-package',  parameters: [string(name: 'ORIG_BUILD_NUMBER', value: "${BUILD_NUMBER}")]
