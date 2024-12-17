@@ -117,8 +117,11 @@ pipeline {
              echo 'The Job ${JOB_NAME} is triggered with build number : ${BULD_NUMBER}'
          }
          success {
-mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "SUCCESS CI: Project name -> ${env.JOB_NAME}", to: "mzm.najjar@gmail.com";
+	script{
+	 def today = new Date()
+            mail bcc: '', body: "<b>${env.JOB_NAME} Success at ${today}</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "SUCCESS CI: Project name -> ${env.JOB_NAME}", to: "mzm.najjar@gmail.com";
          }
+	 }
          failure {
 	script {
 	def today = new Date()
