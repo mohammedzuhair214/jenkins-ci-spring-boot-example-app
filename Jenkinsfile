@@ -102,6 +102,8 @@ pipeline {
         cleanWs()
 		}
 	    }
+
+        }
     post {
          always {
              echo 'The Job ${JOB_NAME} is triggered with build number : ${BULD_NUMBER}'
@@ -119,7 +121,5 @@ pipeline {
 
          }
      }
-
-        }
         
      }
