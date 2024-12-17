@@ -109,7 +109,7 @@ pipeline {
              echo 'The Job ${JOB_NAME} is triggered with build number : ${BULD_NUMBER}'
          }
          success {
-             echo 'the Job name pipeline : ${JOB_NAME} is completed successfully with build number : ${BULD_NUMBER}'
+mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "Success CI: Project name -> ${env.JOB_NAME}", to: "mzm.najjar@gmail.com";
          }
          failure {
              echo 'This will run only if Pipeline Failed'
