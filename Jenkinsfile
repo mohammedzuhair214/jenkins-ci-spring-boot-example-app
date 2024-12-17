@@ -15,7 +15,8 @@ pipeline {
      stages {
 	stage('send Email notification for the Build '){
 		steps {
-           mail bcc: '', body: "<b>${env.JOB_NAME} started at  ${date}</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "JOB Started CI: Project name -> ${env.JOB_NAME}", to: "mzm.najjar@gmail.com";
+	   def today = new Date()
+           mail bcc: '', body: "<b>${env.JOB_NAME} started at  ${today}</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "JOB Started CI: Project name -> ${env.JOB_NAME}", to: "mzm.najjar@gmail.com";
 		}
 	    }
 	stage('Git checkout Build '){
